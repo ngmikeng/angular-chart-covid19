@@ -7,6 +7,9 @@ import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MultiDataChartComponent } from './components/multi-data-chart/multi-data-chart.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 const LIB_MODULES = [
@@ -15,9 +18,13 @@ const LIB_MODULES = [
   MatAutocompleteModule,
   MatFormFieldModule,
   MatInputModule,
-  MatTableModule
+  MatTableModule,
+
+  HighchartsChartModule
 ];
-const COMPONENTS = [];
+const COMPONENTS = [
+  MultiDataChartComponent
+];
 
 @NgModule({
   declarations: [

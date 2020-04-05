@@ -16,6 +16,10 @@
 
 <hr>
 
+<div>
+  <app-multi-data-chart [chartData]="dataByCountry$ | async"></app-multi-data-chart>
+</div>
+
 <table mat-table [dataSource]="dataByCountry$ | async" class="mat-elevation-z8 full-width">
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef> Date </th>
