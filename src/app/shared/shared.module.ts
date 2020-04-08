@@ -7,8 +7,10 @@ import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
-import { MultiDataChartComponent } from './components/multi-data-chart/multi-data-chart.component';
+import { MatDividerModule } from '@angular/material/divider';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { MultiDataChartComponent } from './components/multi-data-chart/multi-data-chart.component';
+import { WorldMapChartComponent } from './components/world-map-chart/world-map-chart.component';
 
 
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
@@ -19,16 +21,18 @@ const LIB_MODULES = [
   MatFormFieldModule,
   MatInputModule,
   MatTableModule,
+  MatDividerModule,
 
   HighchartsChartModule
 ];
 const COMPONENTS = [
-  MultiDataChartComponent
+  MultiDataChartComponent,
+  WorldMapChartComponent
 ];
 
 @NgModule({
   declarations: [
-    ...COMPONENTS
+    ...COMPONENTS,
   ],
   imports: [
     ...BASE_MODULES,

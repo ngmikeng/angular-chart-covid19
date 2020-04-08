@@ -24,6 +24,10 @@ export class CovidDataStoreService {
     this.localDataSubject.next(null);
   }
 
+  getAllData() {
+    return this._localData;
+  }
+
   getListCountries() {
     return this._localData.pipe(map(res => {
       if (res) {

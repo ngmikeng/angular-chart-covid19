@@ -3,6 +3,7 @@ import { CovidDataStoreService } from 'src/app/shared/services/covid-data-store.
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map, tap } from 'rxjs/operators';
+import { ICovid19DateData, ICovid19TimeSeriesData } from 'src/app/models/data.model';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,8 @@ export class HomeComponent implements OnInit {
   selectedCountry: string = 'Vietnam';
   countries: string[];
   countriesOpts$: Observable<string[]>;
-  dataByCountry$: Observable<any[]>;
+  allData$: Observable<ICovid19TimeSeriesData>;
+  dataByCountry$: Observable<ICovid19DateData[]>;
   countryControl = new FormControl(this.selectedCountry);
   displayedColumns: string[] = ['date', 'confirmed', 'recovered', 'deaths'];
 
@@ -26,6 +28,7 @@ export class HomeComponent implements OnInit {
     this.covidDataStoreService.getListCountries().subscribe(res => {
       this.countries = res;
     });
+    this.allData$ = this.covidDataStoreService.getAllData();
     this.countriesOpts$ = this.countryControl.valueChanges
       .pipe(
         startWith(''),
