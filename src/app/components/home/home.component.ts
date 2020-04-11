@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map, tap } from 'rxjs/operators';
 import { ICovid19DateData, ICovid19TimeSeriesData } from 'src/app/models/data.model';
+import { CaseDataType } from 'src/app/shared/global.types';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
   dataByCountry$: Observable<ICovid19DateData[]>;
   countryControl = new FormControl(this.selectedCountry);
   displayedColumns: string[] = ['date', 'confirmed', 'recovered', 'deaths'];
+  dataType: CaseDataType = 'confirmed';
 
   constructor(
     private covidDataStoreService: CovidDataStoreService

@@ -5,6 +5,7 @@ import * as Highcharts from 'highcharts';
 import HC_map from 'highcharts/modules/map';
 HC_map(Highcharts);
 import * as worldMapData from '@highcharts/map-collection/custom/world.geo.json';
+import { CaseDataType } from '../../global.types';
 
 @Component({
   selector: 'app-world-map-chart',
@@ -15,17 +16,28 @@ export class WorldMapChartComponent implements OnInit {
   highcharts: any = Highcharts;
   mapData = (worldMapData as any).default;
 
+  private _dataType: CaseDataType = 'confirmed';
+  private _dataChart: ICovid19TimeSeriesData;
+
   @ViewChild('chartContainer') chartContainerEle: ElementRef;
 
   @Input()
+  set dataType(value: CaseDataType) {
+    this._dataType = value;
+    if (this._dataChart && this.chartContainerEle && this.chartContainerEle.nativeElement) {
+      this.loadChart(this._dataChart, this.mapData, this._dataType);
+    }
+  }
+  @Input()
   set chartData(data: ICovid19TimeSeriesData) {
     if (data && this.chartContainerEle && this.chartContainerEle.nativeElement) {
+      this._dataChart = Object.assign({}, data);
       // Names used in Highcharts Map Collection
-      data['United States of America'] = data.US;
-      data['South Korea'] = data['Korea, South'];
-      data['Czech Republic'] = data.Czechia;
+      this._dataChart['United States of America'] = this._dataChart.US;
+      this._dataChart['South Korea'] = this._dataChart['Korea, South'];
+      this._dataChart['Czech Republic'] = this._dataChart.Czechia;
 
-      this.loadChart(data, this.mapData);
+      this.loadChart(this._dataChart, this.mapData, this._dataType);
     }
   }
 
@@ -37,13 +49,31 @@ export class WorldMapChartComponent implements OnInit {
 
   ngAfterViewInit() {
     if (this.chartContainerEle && this.chartContainerEle.nativeElement) {
-      const chartOptions = this.getChartOptions(this.mapData, []);
+      const chartOptions = this.getChartOptions(this.mapData, [], this._dataType);
       this.highcharts.mapChart(this.chartContainerEle.nativeElement, chartOptions);
     }
   }
 
-  getChartOptions(mapData, seriesData) {
-    return {
+  getChartOptions(mapData, seriesData, dataType) {
+    const colorState = {
+      confirmed: {
+        minColor: 'rgba(100, 10, 100, 0.1)',
+        maxColor: 'rgba(100, 10, 100, 1)'
+      },
+      recovered: {
+        minColor: 'rgba(10, 100, 0, 0.1)',
+        maxColor: 'rgba(10, 100, 0, 1)'
+      },
+      deaths: {
+        minColor: 'rgba(196, 0, 0, 0.1)',
+        maxColor: 'rgba(196, 0, 0, 1)'
+      }
+    };
+    let colorAxis = colorState.deaths;
+    if (dataType && colorState[dataType]) {
+      colorAxis = colorState[dataType];
+    }
+    const options = {
       chart: {
         spacingLeft: 1,
         spacingRight: 1
@@ -51,16 +81,13 @@ export class WorldMapChartComponent implements OnInit {
       title: {
         text: null
       },
+      credits: {
+        enabled: false
+      },
       mapNavigation: {
-        enabled: true,
-        // buttonOptions: {
-        //   verticalAlign: 'bottom'
-        // }
+        enabled: true
       },
-      colorAxis: {
-        minColor: 'rgba(196, 0, 0, 0.1)',
-        maxColor: 'rgba(196, 0, 0, 1)'
-      },
+      colorAxis: colorAxis,
       tooltip: {
         headerFormat: '<b>{point.point.name}</b><br>',
         pointFormat: '<b>{point.value}</b> cases'
@@ -92,9 +119,11 @@ export class WorldMapChartComponent implements OnInit {
         borderColor: 'rgba(0, 0, 0, 0.05)'
       }]
     };
+
+    return options;
   }
 
-  loadChart(timeSeriesData: ICovid19TimeSeriesData, mapData) {
+  loadChart(timeSeriesData: ICovid19TimeSeriesData, mapData, dataType: CaseDataType) {
     const seriesData = mapData.features.map((data) => {
       const country = data.properties;
 
@@ -103,7 +132,7 @@ export class WorldMapChartComponent implements OnInit {
         const latestData = countryData[countryData.length - 1];
         return {
           key: country.name,
-          value: latestData.confirmed
+          value: latestData[dataType] ? latestData[dataType] : latestData.confirmed
         }
       } else {
         return {
@@ -112,7 +141,7 @@ export class WorldMapChartComponent implements OnInit {
         }
       }
     });
-    const chartOptions = this.getChartOptions(mapData, seriesData);
+    const chartOptions = this.getChartOptions(mapData, seriesData, dataType);
     this.highcharts.mapChart(this.chartContainerEle.nativeElement, chartOptions);
   }
 

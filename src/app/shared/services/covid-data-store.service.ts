@@ -28,6 +28,27 @@ export class CovidDataStoreService {
     return this._localData;
   }
 
+  getSummaryNumbers() {
+    return this._localData.pipe(map(res => {
+      const result = {
+        confirmed: 0,
+        deaths: 0,
+        recovered: 0
+      };
+      if (res) {
+        Object.keys(res).forEach(countryName => {
+          if (res[countryName]) {
+            const latestItem = res[countryName][res[countryName].length - 1];
+            result.confirmed = result.confirmed + latestItem.confirmed;
+            result.deaths = result.deaths + latestItem.deaths;
+            result.recovered = result.recovered + latestItem.recovered;
+          }
+        });
+      }
+      return result;
+    }))
+  }
+
   getListCountries() {
     return this._localData.pipe(map(res => {
       if (res) {
@@ -39,8 +60,8 @@ export class CovidDataStoreService {
 
   getByCountryName(name) {
     return this._localData.pipe(map(res => {
-      if (res) {
-        return res[name];
+      if (res && res[name]) {
+        return [...res[name]];
       }
       return;
     }))

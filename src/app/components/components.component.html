@@ -1,7 +1,19 @@
-<mat-toolbar>
-  <span>CHART COVID 19</span>
+<mat-toolbar class="header">
+  <span>CHART COVID-19</span>
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space"></span>
+
+  <div class="summary-wrap">
+    <mat-icon class="text-orange" title="Confirmed">sentiment_dissatisfied</mat-icon> <span class="number">{{ totalConfirmed$ | async }}</span>
+    <mat-icon class="text-red" title="Deaths">sentiment_very_dissatisfied</mat-icon> <span class="number">{{ totalDeaths$ | async }}</span>
+    <mat-icon class="text-green" title="Recovered">sentiment_very_satisfied</mat-icon> <span class="number">{{ totalRecovered$ | async }}</span>
+  </div>
 </mat-toolbar>
 
 <mat-card>
   <router-outlet></router-outlet>
 </mat-card>
+
+<mat-toolbar class="info">
+  <span>Source data from <a href="https://github.com/pomber/covid19">@pomber/covid19</a></span>
+</mat-toolbar>

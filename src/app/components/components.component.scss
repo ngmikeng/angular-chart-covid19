@@ -1,0 +1,33 @@
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.info {
+  font-size: 11px;
+  border-top: 1px solid #cdcdcd;
+  border-bottom: 1px solid #cdcdcd;
+  height: 40px;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.summary-wrap {
+  display: flex;
+  align-items: center;
+  .number {
+    margin-left: 3px;
+    margin-right: 10px;
+  }
+  .text-orange {
+    color: purple;
+  }
+  .text-red {
+    color: red;
+  }
+  .text-green {
+    color: green;
+  }
+}

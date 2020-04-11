@@ -1,6 +1,13 @@
 
 <div>
-  <app-world-map-chart [chartData]="allData$ | async"></app-world-map-chart>
+  <app-world-map-chart [chartData]="allData$ | async" [dataType]="dataType"></app-world-map-chart>
+  <div class="align-center">
+    <mat-button-toggle-group name="dataType" [(ngModel)]="dataType">
+      <mat-button-toggle value="confirmed">Confirmed</mat-button-toggle>
+      <mat-button-toggle value="deaths">Deaths</mat-button-toggle>
+      <mat-button-toggle value="recovered">Recovered</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 </div>
 
 <hr>
