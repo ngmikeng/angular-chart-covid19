@@ -8,6 +8,7 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -25,6 +26,7 @@ const LIB_MODULES = [
   MatInputModule,
   MatTableModule,
   MatDividerModule,
+  MatButtonModule,
   MatButtonToggleModule,
   MatIconModule,
 

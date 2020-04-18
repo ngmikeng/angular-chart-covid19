@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-
+const rootPath = 'angular-chart-covid19';
 const routes: Routes = [
-  { path: 'p', loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
-  { path: '**', redirectTo: 'p' },
+  { path: `${rootPath}`, loadChildren: () => import('./components/components.module').then(m => m.ComponentsModule) },
+  { path: '**', redirectTo: `${rootPath}` },
 ];
 
 @NgModule({

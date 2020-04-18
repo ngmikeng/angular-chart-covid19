@@ -3,6 +3,7 @@ import { CovidDataStoreService } from 'src/app/shared/services/covid-data-store.
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { startWith, map, tap } from 'rxjs/operators';
+import { saveAs } from 'file-saver';
 import { ICovid19DateData, ICovid19TimeSeriesData } from 'src/app/models/data.model';
 import { CaseDataType } from 'src/app/shared/global.types';
 
@@ -20,6 +21,8 @@ export class HomeComponent implements OnInit {
   countryControl = new FormControl(this.selectedCountry);
   displayedColumns: string[] = ['date', 'confirmed', 'recovered', 'deaths'];
   dataType: CaseDataType = 'confirmed';
+
+  private _dataByCountry: ICovid19DateData[];
 
   constructor(
     private covidDataStoreService: CovidDataStoreService
@@ -54,6 +57,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  exportCSV() {
+    console.log(this._dataByCountry);
+    if (this.selectedCountry && this._dataByCountry && this._dataByCountry.length > 0) {
+      const sampleItem = this._dataByCountry[0];
+      const headers = Object.keys(sampleItem);
+      const dataRows = [];
+      this._dataByCountry.forEach(item => {
+        dataRows.push([...Object.values(item)])
+      });
+      const dataString = [
+        headers.join(','),
+        dataRows.join('\n')
+      ].join('\n');
+
+      const blob = new Blob([dataString], {type: "text/csv;charset=utf-8"});
+      saveAs(blob, `covid19_${this.selectedCountry}_${new Date().getTime()}.csv`);
+    }
+  }
+
   private _handleLoadDataByCountry(name) {
     this.dataByCountry$ = this.covidDataStoreService.getByCountryName(name)
       .pipe(map(res => {
@@ -64,6 +86,9 @@ export class HomeComponent implements OnInit {
           });
         }
         return res;
+      }))
+      .pipe(tap(res => {
+        this._dataByCountry = res
       }));
   }
 
