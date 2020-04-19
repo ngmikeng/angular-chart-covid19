@@ -34,7 +34,8 @@
 </div>
 
 <div class="table-buttons">
-  <button mat-raised-button color="primary" (click)="exportCSV()">Export CSV</button>
+  <button mat-raised-button color="primary" (click)="exportCSV()">Export Country</button>
+  <button mat-raised-button color="secondary" (click)="exportWorldCSV()">Export World</button>
 </div>
 <table mat-table [dataSource]="dataByCountry$ | async" class="mat-elevation-z8 full-width">
   <ng-container matColumnDef="date">

@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   dataType: CaseDataType = 'confirmed';
 
   private _dataByCountry: ICovid19DateData[];
+  private _allData: ICovid19TimeSeriesData;
 
   constructor(
     private covidDataStoreService: CovidDataStoreService
@@ -34,6 +35,9 @@ export class HomeComponent implements OnInit {
       this.countries = res;
     });
     this.allData$ = this.covidDataStoreService.getAllData();
+    this.allData$.subscribe(res => {
+      this._allData = res;
+    });
     this.countriesOpts$ = this.countryControl.valueChanges
       .pipe(
         startWith(''),
@@ -72,6 +76,33 @@ export class HomeComponent implements OnInit {
 
       const blob = new Blob([dataString], {type: "text/csv;charset=utf-8"});
       saveAs(blob, `covid19_${this.selectedCountry}_${new Date().getTime()}.csv`);
+    }
+  }
+
+  exportWorldCSV() {
+    if (this._allData) {
+      const countries = Object.keys(this._allData);
+      const sampleItem = this._allData['US'][0];
+      const headers = ['country', ...Object.keys(sampleItem)];
+      const dataRows = [];
+      countries.forEach(key => {
+        let countryName = key;
+        if (countryName.indexOf('Korea, South') > -1) {
+          countryName = 'South Korea';
+        }
+        if (this._allData[key]) {
+          const countryData = this._allData[key];
+          const latestItem = countryData[countryData.length - 1];
+          dataRows.push([countryName, ...Object.values(latestItem)])
+        }
+      });
+      const dataString = [
+        headers.join(','),
+        dataRows.join('\n')
+      ].join('\n');
+
+      const blob = new Blob([dataString], {type: "text/csv;charset=utf-8"});
+      saveAs(blob, `covid19_World_${new Date().getTime()}.csv`);
     }
   }
 
