@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
   }
 
   exportCSV() {
-    console.log(this._dataByCountry);
     if (this.selectedCountry && this._dataByCountry && this._dataByCountry.length > 0) {
       const sampleItem = this._dataByCountry[0];
       const headers = Object.keys(sampleItem);

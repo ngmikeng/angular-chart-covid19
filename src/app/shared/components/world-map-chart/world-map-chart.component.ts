@@ -85,7 +85,7 @@ export class WorldMapChartComponent implements OnInit {
         enabled: false
       },
       mapNavigation: {
-        enabled: true
+        enabled: false
       },
       colorAxis: colorAxis,
       tooltip: {
@@ -106,7 +106,6 @@ export class WorldMapChartComponent implements OnInit {
         id: 'map',
         data: seriesData,
         mapData,
-        // joinBy: ['name', 'name'],
         joinBy: ['name', 'key'],
         cursor: 'pointer',
         states: {

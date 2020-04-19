@@ -1,7 +1,7 @@
 
 <div>
   <app-world-map-chart [chartData]="allData$ | async" [dataType]="dataType"></app-world-map-chart>
-  <div class="align-center">
+  <div class="types-data-buttons">
     <mat-button-toggle-group name="dataType" [(ngModel)]="dataType">
       <mat-button-toggle value="confirmed">Confirmed</mat-button-toggle>
       <mat-button-toggle value="deaths">Deaths</mat-button-toggle>
@@ -33,7 +33,7 @@
   <app-multi-data-chart [chartData]="dataByCountry$ | async"></app-multi-data-chart>
 </div>
 
-<div class="">
+<div class="table-buttons">
   <button mat-raised-button color="primary" (click)="exportCSV()">Export CSV</button>
 </div>
 <table mat-table [dataSource]="dataByCountry$ | async" class="mat-elevation-z8 full-width">
