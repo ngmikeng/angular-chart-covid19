@@ -7,6 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +26,7 @@ const LIB_MODULES = [
   MatAutocompleteModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSelectModule,
   MatTableModule,
   MatDividerModule,
   MatButtonModule,

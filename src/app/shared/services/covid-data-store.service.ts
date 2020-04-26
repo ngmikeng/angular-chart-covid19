@@ -33,12 +33,14 @@ export class CovidDataStoreService {
       const result = {
         confirmed: 0,
         deaths: 0,
-        recovered: 0
+        recovered: 0,
+        date: ''
       };
       if (res) {
         Object.keys(res).forEach(countryName => {
           if (res[countryName]) {
             const latestItem = res[countryName][res[countryName].length - 1];
+            result.date = latestItem.date;
             result.confirmed = result.confirmed + latestItem.confirmed;
             result.deaths = result.deaths + latestItem.deaths;
             result.recovered = result.recovered + latestItem.recovered;

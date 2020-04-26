@@ -12,10 +12,27 @@
   </div>
 </mat-toolbar>
 
+<mat-toolbar class="info">
+  <span>{{ 'ROOT.LATEST_DATA_DATE' | translate }}: {{ lastUpdateDate$ | async }}</span>
+  <span class="fill-remaining-space"></span>
+  <div class="lang-wrap">
+    <mat-form-field>
+      <!-- <mat-label>Languages</mat-label> -->
+      <mat-select (selectionChange)="onChangeLang($event)" [formControl]="langControl">
+        <mat-option *ngFor="let lang of languages" [value]="lang.id">
+          {{lang.text}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-toolbar>
+
 <mat-card>
   <router-outlet></router-outlet>
 </mat-card>
 
 <mat-toolbar class="info">
-  <span>Source data from <a href="https://github.com/pomber/covid19">@pomber/covid19</a></span>
+  <span>{{ 'ROOT.DATA_INFO' | translate }} <a href="https://github.com/pomber/covid19">@pomber/covid19</a></span>
+  <span class="fill-remaining-space"></span>
+  <span>{{ 'ROOT.FOLLOW_ME' | translate }} <a href="https://github.com/ngmikeng">@ngmikeng</a></span>
 </mat-toolbar>

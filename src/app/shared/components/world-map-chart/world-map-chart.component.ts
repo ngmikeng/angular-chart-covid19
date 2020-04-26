@@ -85,7 +85,7 @@ export class WorldMapChartComponent implements OnInit {
         enabled: false
       },
       mapNavigation: {
-        enabled: false
+        enabled: true
       },
       colorAxis: colorAxis,
       tooltip: {
