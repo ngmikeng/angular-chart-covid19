@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CovidDataStoreService } from 'src/app/shared/services/covid-data-store.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -6,13 +6,15 @@ import { startWith, map, tap } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { ICovid19DateData, ICovid19TimeSeriesData } from 'src/app/models/data.model';
 import { CaseDataType } from 'src/app/shared/global.types';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   selectedCountry: string = 'Vietnam';
   countries: string[];
   countriesOpts$: Observable<string[]>;
@@ -20,7 +22,10 @@ export class HomeComponent implements OnInit {
   dataByCountry$: Observable<ICovid19DateData[]>;
   countryControl = new FormControl(this.selectedCountry);
   displayedColumns: string[] = ['date', 'confirmed', 'recovered', 'deaths'];
+  dataSource = new MatTableDataSource<ICovid19DateData>([]);
   dataType: CaseDataType = 'confirmed';
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   private _dataByCountry: ICovid19DateData[];
   private _allData: ICovid19TimeSeriesData;
@@ -45,6 +50,10 @@ export class HomeComponent implements OnInit {
       );
     // default load selected country
     this._handleLoadDataByCountry(this.selectedCountry);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   private _filter(value: string): string[] {
@@ -118,7 +127,10 @@ export class HomeComponent implements OnInit {
         return res;
       }))
       .pipe(tap(res => {
-        this._dataByCountry = res
+        if (res) {
+          this._dataByCountry = res
+          this.dataSource.data = res;
+        }
       }));
   }
 

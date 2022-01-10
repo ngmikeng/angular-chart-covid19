@@ -6,14 +6,14 @@
   <span class="fill-remaining-space"></span>
 
   <div class="summary-wrap">
-    <mat-icon class="text-orange" title="Confirmed">sentiment_dissatisfied</mat-icon> <span class="number">{{ totalConfirmed$ | async }}</span>
-    <mat-icon class="text-red" title="Deaths">sentiment_very_dissatisfied</mat-icon> <span class="number">{{ totalDeaths$ | async }}</span>
-    <mat-icon class="text-green" title="Recovered">sentiment_very_satisfied</mat-icon> <span class="number">{{ totalRecovered$ | async }}</span>
+    <mat-icon class="text-orange" title="Confirmed">sentiment_dissatisfied</mat-icon> <span class="number">{{ totalConfirmed }}</span>
+    <mat-icon class="text-red" title="Deaths">sentiment_very_dissatisfied</mat-icon> <span class="number">{{ totalDeaths }}</span>
+    <!-- <mat-icon class="text-green" title="Recovered">sentiment_very_satisfied</mat-icon> <span class="number">{{ totalRecovered }}</span> -->
   </div>
 </mat-toolbar>
 
 <mat-toolbar class="info">
-  <span>{{ 'ROOT.LATEST_DATA_DATE' | translate }}: {{ lastUpdateDate$ | async }}</span>
+  <span>{{ 'ROOT.LATEST_DATA_DATE' | translate }}: {{ lastUpdateDate }}</span>
   <span class="fill-remaining-space"></span>
   <div class="lang-wrap">
     <mat-form-field>
